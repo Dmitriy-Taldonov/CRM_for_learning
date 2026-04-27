@@ -18,7 +18,7 @@ export async function GET() {
 
     // Fetch all progress to calculate overall averages
     const allProgress = await prisma.progress.findMany();
-    const completedLessons = allProgress.filter(p => p.completed).length;
+    const completedLessons = allProgress.filter((p: any) => p.completed).length;
     
     const enrollments = await prisma.enrollment.findMany({
       include: {
@@ -39,12 +39,12 @@ export async function GET() {
     // Calculate per-employee stats
     const studentStatsMap = new Map();
 
-    enrollments.forEach(en => {
+    enrollments.forEach((en: any) => {
       const courseLessonsCount = en.course.modules.reduce((acc, m) => acc + m.lessons.length, 0);
       totalPossibleLessons += courseLessonsCount;
 
-      const studentProg = allProgress.filter(p => p.userId === en.userId && en.course.modules.some(m => m.lessons.some(l => l.id === p.lessonId)));
-      const completedCount = studentProg.filter(p => p.completed).length;
+      const studentProg = allProgress.filter((p: any) => p.userId === en.userId && en.course.modules.some((m: any) => m.lessons.some((l: any) => l.id === p.lessonId)));
+      const completedCount = studentProg.filter((p: any) => p.completed).length;
       
       const isCompleted = courseLessonsCount > 0 && completedCount === courseLessonsCount;
       if (isCompleted) completelyFinishedCourses++;
@@ -69,7 +69,7 @@ export async function GET() {
     const averageProgress = totalPossibleLessons > 0 ? Math.round((completedLessons / totalPossibleLessons) * 100) : 0;
     const courseCompletionRate = enrollments.length > 0 ? Math.round((completelyFinishedCourses / enrollments.length) * 100) : 0;
 
-    const studentList = Array.from(studentStatsMap.values()).map(s => ({
+    const studentList = Array.from(studentStatsMap.values()).map((s: any) => ({
       ...s,
       progress: s.totalLessons > 0 ? Math.round((s.completedLessons / s.totalLessons) * 100) : 0
     }));
@@ -94,7 +94,7 @@ export async function GET() {
       }
     });
 
-    const courseAnalytics = allCourses.map(c => {
+    const courseAnalytics = allCourses.map((c: any) => {
       return {
         id: c.id,
         title: c.title,
