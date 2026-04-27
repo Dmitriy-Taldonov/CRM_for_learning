@@ -42,15 +42,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
 
     // Process data
-    const courses = user.enrollments.map(en => {
-      const courseLessons = en.course.modules.flatMap(m => m.lessons.map(l => l.id));
+    const courses = user.enrollments.map((en: any) => {
+      const courseLessons = en.course.modules.flatMap((m: any) => m.lessons.map((l: any) => l.id));
       const totalLessons = courseLessons.length;
-      const completedLessons = user.progress.filter(p => courseLessons.includes(p.lessonId) && p.completed).length;
+      const completedLessons = user.progress.filter((p: any) => courseLessons.includes(p.lessonId) && p.completed).length;
       const progressPercent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
       
       const timeSpentInCourse = user.learningSessions
-        .filter(s => s.courseId === en.course.id)
-        .reduce((sum, s) => sum + s.timeSpent, 0);
+        .filter((s: any) => s.courseId === en.course.id)
+        .reduce((sum: number, s: any) => sum + s.timeSpent, 0);
 
       return {
         id: en.course.id,
@@ -64,8 +64,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       };
     });
 
-    const totalTimeSpent = courses.reduce((sum, c) => sum + c.timeSpent, 0);
-    const overallProgress = courses.length > 0 ? Math.round(courses.reduce((sum, c) => sum + c.progress, 0) / courses.length) : 0;
+    const totalTimeSpent = courses.reduce((sum: number, c: any) => sum + c.timeSpent, 0);
+    const overallProgress = courses.length > 0 ? Math.round(courses.reduce((sum: number, c: any) => sum + c.progress, 0) / courses.length) : 0;
 
     return NextResponse.json({
       user: {
@@ -78,7 +78,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       stats: {
         totalTimeSpent,
         overallProgress,
-        coursesCompleted: courses.filter(c => c.isCompleted).length,
+        coursesCompleted: courses.filter((c: any) => c.isCompleted).length,
         coursesEnrolled: courses.length
       },
       courses,

@@ -31,7 +31,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     for (const question of quiz.questions) {
       const userOptionIds = answers[question.id] || [];
-      const correctOptionIds = question.options.filter(o => o.isCorrect).map(o => o.id);
+      const correctOptionIds = question.options.filter((o: any) => o.isCorrect).map((o: any) => o.id);
 
       if (question.type === "SINGLE_CHOICE") {
         if (userOptionIds.length === 1 && correctOptionIds.includes(userOptionIds[0])) {

@@ -67,7 +67,7 @@ export async function GET() {
           }
         }
       });
-      return NextResponse.json(students.map(s => ({ ...s, active: true, createdAt: new Date() })));
+      return NextResponse.json(students.map((s: any) => ({ ...s, active: true, createdAt: new Date() })));
     } catch (e) {
       console.error("Students fetch error:", e);
       return NextResponse.json([]);

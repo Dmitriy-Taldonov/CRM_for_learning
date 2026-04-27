@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
       const csvRows = [
         ["ID", "Email", "Department", "Created At", "Last Login"],
-        ...users.map(u => [
+        ...users.map((u: any) => [
           u.id, 
           u.email, 
           u.department?.name || "Unassigned", 
@@ -29,7 +29,7 @@ export async function GET(request: Request) {
         ])
       ];
 
-      const csvString = csvRows.map(row => row.join(",")).join("\n");
+      const csvString = csvRows.map((row: any) => row.join(",")).join("\n");
       
       return new NextResponse(csvString, {
         headers: {
@@ -46,16 +46,16 @@ export async function GET(request: Request) {
 
       const csvRows = [
         ["ID", "Title", "Published", "Enrollments", "Total Lessons"],
-        ...courses.map(c => [
+        ...courses.map((c: any) => [
           c.id,
           `"${c.title.replace(/"/g, '""')}"`,
           c.published,
           c.enrollments.length,
-          c.modules.reduce((sum, m) => sum + m.lessons.length, 0)
+          c.modules.reduce((sum: number, m: any) => sum + m.lessons.length, 0)
         ])
       ];
 
-      const csvString = csvRows.map(row => row.join(",")).join("\n");
+      const csvString = csvRows.map((row: any) => row.join(",")).join("\n");
       
       return new NextResponse(csvString, {
         headers: {
