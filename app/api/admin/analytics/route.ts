@@ -40,7 +40,7 @@ export async function GET() {
     const studentStatsMap = new Map();
 
     enrollments.forEach((en: any) => {
-      const courseLessonsCount = en.course.modules.reduce((acc, m) => acc + m.lessons.length, 0);
+      const courseLessonsCount = en.course.modules.reduce((acc: number, m: any) => acc + m.lessons.length, 0);
       totalPossibleLessons += courseLessonsCount;
 
       const studentProg = allProgress.filter((p: any) => p.userId === en.userId && en.course.modules.some((m: any) => m.lessons.some((l: any) => l.id === p.lessonId)));
@@ -74,8 +74,8 @@ export async function GET() {
       progress: s.totalLessons > 0 ? Math.round((s.completedLessons / s.totalLessons) * 100) : 0
     }));
 
-    const topEmployees = [...studentList].sort((a, b) => b.progress - a.progress).slice(0, 5);
-    const laggingEmployees = [...studentList].sort((a, b) => a.progress - b.progress).slice(0, 5);
+    const topEmployees = [...studentList].sort((a: any, b: any) => b.progress - a.progress).slice(0, 5);
+    const laggingEmployees = [...studentList].sort((a: any, b: any) => a.progress - b.progress).slice(0, 5);
 
     // Mock Activity Graph Data
     const activityGraph = Array.from({ length: 7 }).map((_, i) => {
@@ -104,8 +104,8 @@ export async function GET() {
       };
     });
 
-    const popularCourses = [...courseAnalytics].sort((a, b) => b.enrollmentCount - a.enrollmentCount).slice(0, 3);
-    const abandonedCourses = [...courseAnalytics].sort((a, b) => a.engagementScore - b.engagementScore).slice(0, 3);
+    const popularCourses = [...courseAnalytics].sort((a: any, b: any) => b.enrollmentCount - a.enrollmentCount).slice(0, 3);
+    const abandonedCourses = [...courseAnalytics].sort((a: any, b: any) => a.engagementScore - b.engagementScore).slice(0, 3);
 
     return NextResponse.json({
       general: {
